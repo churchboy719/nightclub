@@ -1,9 +1,9 @@
-import { groq } from "next-sanity";
-import { client } from "@/sanity/lib/client";
-import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image";
-import { gallery } from "@/sanity/schema/gallery";
-import Navbar from "../components/Navbar";
+// import { groq } from "next-sanity";
+// import { client } from "@/sanity/lib/client";
+// import Image from "next/image";
+// import { urlFor } from "@/sanity/lib/image";
+// import { gallery } from "@/sanity/schema/gallery";
+// import Navbar from "../components/Navbar";
 
 // export default async function Gallery() {
 // const blog = await client.fetch(groq `*[_type=="gallery"]`);
@@ -24,9 +24,31 @@ import Navbar from "../components/Navbar";
 //     );
 // }
 
-export default async function Gallery ({ posts }: { posts: { title: string; imageUrl: string; date: string }[] }) {
-    const blog = await client.fetch(groq `*[_type=="gallery"]`);
-        return(
+//export default async function Gallery ({ posts }: { posts: { title: string; imageUrl: string; date: string }[] }) {
+//    const blog = await client.fetch(groq `*[_type=="gallery"]`);
+  
+"use client"; // Ensure it's a client component
+
+import { useState, useEffect } from "react";
+import { groq } from "next-sanity";
+import { client } from "@/sanity/lib/client";
+import Navbar from "../components/Navbar";
+import Image from "next/image";
+import { urlFor } from "@/sanity/lib/image";
+
+export default function Gallery() {
+  const [blog, setBlog] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await client.fetch(groq`*[_type=="gallery"]`);
+      setBlog(data);
+    }
+    fetchData();
+  }, []);
+
+
+return(
             <>
             <Navbar />
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
