@@ -1,12 +1,14 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const ErrorPage = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
   return (
+    <Suspense fallback={<p>Loading...</p>}>
     <div className="flex items-center justify-center h-screen">
       <div className="text-center">
         <h1 className="text-2xl font-bold text-red-600">Authentication Error</h1>
@@ -16,6 +18,7 @@ const ErrorPage = () => {
         </a>
       </div>
     </div>
+    </Suspense>
   );
 };
 
